@@ -1,0 +1,51 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/.idea
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+# /build
+/firestore-backup
+.runtimeconfig.json
+functions/.runtimeconfig.json
+
+# misc
+.DS_Store
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+#python api
+python-api/env/lib/python3.8
+
+#VS Code
+/.vscode
+.runtimeconfig.json
+
+#firebase
+firebase-debug.log
+firestore-debug.log
+firestore-debug.log
+
+#firebase emulator
+testData.sh
+/testData
+delete.bat
+firebase-export*
+ui-debug.log
+
+#nginx
+nginx\conf\nginx.conf
+/nginx/logs
