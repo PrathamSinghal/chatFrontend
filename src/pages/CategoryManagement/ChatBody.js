@@ -3,7 +3,7 @@ import React from 'react'
 
 const ChatBody = ({messages, typingStatus, lastMessageRef}) => { 
 //   const navigate = useNavigate()
-  
+  console.log(messages)
   
   return (
     <>
