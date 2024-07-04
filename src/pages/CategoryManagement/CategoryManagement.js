@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const OfferManagement = ({ history, setUsers, userData }) => {
+const OfferManagement = ({ history, setUsers, userData, socket }) => {
   const classes = useStyles();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -133,7 +133,7 @@ const OfferManagement = ({ history, setUsers, userData }) => {
     try {
 
       let deleteData = {
-        scrapIds: values
+        ids: values
       }
 
       const { data } = await axios.post(`user/pdfDelete`,deleteData);
@@ -216,7 +216,7 @@ const OfferManagement = ({ history, setUsers, userData }) => {
                     style={{ cursor: "pointer" }}
                     type="file"
                     name="image"
-                    accept=".pdf,.doc,.docx"
+                    accept=".pdf"
                     id="file-input"
                     onChange={async (e) => {
                       await fileUpload(e.target.files[0]);                        
@@ -350,6 +350,8 @@ const OfferManagement = ({ history, setUsers, userData }) => {
                             <FaIcons.FaEye
                               onClick={() => {
                                 history.push(`/pdfDetails/${category._id}`);
+                                localStorage.setItem("userName", "pdfuser")
+                                socket.emit("newUser", {userName: "pdfuser", socketID: socket.id})
                               }}
                               style={{cursor: "pointer"}}
                             />

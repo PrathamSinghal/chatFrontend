@@ -15,19 +15,21 @@ import { withRouter } from "react-router";
 import * as actionTypes from "./store/actions";
 import CategoryManagement from "./pages/CategoryManagement/CategoryManagement";
 import CategoryDetails from "./pages/CategoryManagement/CategoryDetails";
+import socketIO from "socket.io-client"
+
+const socket = socketIO.connect("http://167.71.231.59:3000")
 
 const PublicRoute = (props) => {
+
+  console.log(socket)
 
   return (
     <Switch>
       <Route path="/" exact>
-        <CategoryManagement />
-      </Route>
-      <Route path="/websiteDetails/:id" exact>
-        <CategoryDetails />
+        <CategoryManagement socket={socket}  />
       </Route>
       <Route path="/pdfDetails/:id" exact>
-        <CategoryDetails />
+        <CategoryDetails socket={socket}  />
       </Route>
     </Switch>
   );

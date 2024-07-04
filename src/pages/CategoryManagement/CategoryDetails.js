@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   DashboardContainer,
   DashboardHeading,
@@ -38,12 +38,39 @@ import { withRouter, useParams } from "react-router-dom";
 
 import * as MdIcons from "react-icons/md";
 import * as IoIcons from "react-icons/io";
+import ChatBar from "./ChatBar";
+import ChatBody from './ChatBody'
+import ChatFooter from './ChatFooter'
 
-const OfferManagement = ({ history, setUsers, userData }) => {
+
+
+const OfferManagement = ({ history, setUsers, userData, socket }) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [websiteData, setWebsiteData] = useState("");
   const [loadedFileExtension, setLoadedFileExtension] = useState("");
+  console.log(socket);
+
+
+  const [messages, setMessages] = useState([])
+  const [typingStatus, setTypingStatus] = useState("")
+  const lastMessageRef = useRef(null);
+
+  useEffect(()=> {
+    socket.on("messageResponse", data => setMessages([...messages, data]))
+  }, [socket, messages])
+
+  useEffect(()=> {
+    socket.on("typingResponse", data => setTypingStatus(data))
+  }, [socket])
+
+  useEffect(() => {
+    // 👇️ scroll to bottom every time messages change
+    lastMessageRef.current?.scrollIntoView({behavior: 'smooth'});
+  }, [messages]);
+
+
+
 
   const params = useParams();
 
@@ -83,6 +110,7 @@ const OfferManagement = ({ history, setUsers, userData }) => {
                       onClick={() => {
                         history.push('/');
                       }}
+                      style={{cursor: "pointer"}}
                     >
                         Home
                     </HomeText>
@@ -128,26 +156,40 @@ const OfferManagement = ({ history, setUsers, userData }) => {
                               Chat
                               </DetailsHeading>
                             </DetailsNameRow>
-                              <ChatContainer>
+
+                              <div className="chat">
+                                <div className='chat__main'>
+                                  <ChatBody messages={messages} typingStatus={typingStatus} lastMessageRef={lastMessageRef}/>
+                                  <ChatFooter socket={socket}
+                                    pdfId={websiteData?.boxFileId}
+                                  />
+                                </div>
+                              </div>
+
+
+                              {/*<ChatContainer>
                                 <ChatSection>
                                   <ChatRow>
                                   </ChatRow>
                                 </ChatSection>
                                 <InputRow>
                                 <MenuOfServicesCard>
-                                    <MenuServicesHeading>Message</MenuServicesHeading>
+                                    <MenuServicesHeading>
+                                      <InputButton
+
+                                      />
+                                    </MenuServicesHeading>
                                     <ExploreButton
                                       
                                     >
                                       <IoIcons.IoMdArrowUp/>
                                     </ExploreButton>
                                   </MenuOfServicesCard>
-                                  <InputButton>
-                                  </InputButton>
+                                  
                                   <QuesSubmit>
                                   </QuesSubmit>
                                 </InputRow>
-                              </ChatContainer>
+                              </ChatContainer>*/}
                           </DetailsSection>
                         </ScreenshotRow>
                       </CompanyScreenshot>
