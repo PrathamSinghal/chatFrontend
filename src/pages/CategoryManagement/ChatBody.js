@@ -22,7 +22,11 @@ const ChatBody = ({messages, typingStatus, lastMessageRef}) => {
               <div className="message__chats" key={message.id}>
             <p>{message.name}</p>
             <div className='message__recipient'>
-                <p>{message.text}</p>
+              <pre>
+                <tag style={{whiteSpace: "pre-wrap"}}>
+                {message.text}
+                </tag>
+              </pre>
             </div>
           </div>
             )
